@@ -130,8 +130,9 @@ class CANNet(nn.Module):
         # 通过输出层卷积得到最终的特征图 I
         # I = self.tail_conv(x5)
         I = self.custom_param * lms
+        I_sum = I.sum(dim=1, keepdim=True)
         # P_matched = match_histograms(pan, I)
-        diff = pan - I
+        diff = pan - I_sum
         edges_mag = self.model_mag(diff)  # 计算边缘幅度
         fused_image = lms + edges_mag + last_hrms
 
